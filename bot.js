@@ -20,20 +20,28 @@ bot.on('ready', function (evt) {
 bot.on('message', function (user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `!`
-    if (message.substring(0, 1) == '!') {
-        var args = message.substring(1).split(' ');
-        var cmd = args[0];
+    // if (message.substring(0, 1) == '!') {
+    //     var args = message.substring(1).split(' ');
+    //     var cmd = args[0];
        
-        args = args.splice(1);
-        switch(cmd) {
+    //     args = args.splice(1);
+    // NOTE: Var cmd som param i stedet for message
+        switch(message) {
             // !ping
             case 'ping':
                 bot.sendMessage({
                     to: channelID,
                     message: 'Pong!'
                 });
-            break;
+                break;
+            case 'kjekkest':
+                bot.sendMessage({
+                    to: channelID,
+                    message: 'Aleksander, of course!'
+                });
+                break;
+
             // Just add any case commands if you want to..
          }
-     }
+    //  }
 });
