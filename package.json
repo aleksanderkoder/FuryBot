@@ -1,0 +1,8 @@
+{
+    "name": "fury-bot",
+    "version": "1.0.0",
+    "description": "A Discord bot for Fury Music",
+    "main": "bot.js",
+    "author": "Aleksander Johansen",
+    "dependencies": {}
+    }
