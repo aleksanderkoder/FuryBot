@@ -2,10 +2,12 @@
     "name": "fury-bot",
     "version": "1.0.0",
     "description": "A Discord bot for Fury Music",
-    "main": "bot.js",
+    "main": "app.js",
     "author": "Aleksander Johansen",
     "dependencies": {
-        "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
-        "winston": "^3.3.3"
+        "@discordjs/opus": "^0.5.0",
+        "discord.js": "^12.5.3",
+        "dotenv": "^10.0.0",
+        "node-fetch": "^2.6.1"
     }
 }
