@@ -49,7 +49,11 @@ client.on("message", async (message) => {
 
           dispatcher.on("finish", () => {
             console.log("Audio has finished playing!");
-            vc.leave();
+            
+            setTimeout(() => {
+              vc.leave();
+            }, 5000);
+            
           });
 
           // Always remember to handle errors appropriately!
