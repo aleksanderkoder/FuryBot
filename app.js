@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 require("dotenv").config();
-const fs = require("fs");
+// const fs = require("fs");
 const fetch = require("node-fetch");
 
 const client = new Discord.Client();
@@ -8,7 +8,10 @@ let connection;
 let vc;
 let songQueue = []; 
 let playing = false; 
-let counter = 0;
+let acTimer = 0;
+
+// Makes bot leave voice channel after 5 minutes of inactivity
+setInterval(abandonChannelTimer, 60000); 
 
 client.on("ready", () => {
   console.log("Bot is ready");
@@ -37,10 +40,12 @@ async function playSong(message) {
        songQueue.push(message);
       return;
     }; 
+
     let msgParams = message.content.split(" ");
     let url = new URL(msgParams[1]);
     let songid = url.searchParams.get("songid");
     playing = true; 
+    acTimer = 0; 
     
     console.log(JSON.stringify(songQueue)); 
     
@@ -71,9 +76,11 @@ async function playSong(message) {
             console.log(songQueue.length); 
 
             if(songQueue.length > 1) {
+              message.channel.send("Playing next song in queue...");
               songQueue.shift();
               playSong(songQueue[0]);
             } else if( songQueue.length == 1) {
+              message.channel.send("Playing last song in queue...");
               playSong(songQueue[0]);
               songQueue.shift();
             } else {
@@ -96,5 +103,12 @@ async function playSong(message) {
     vc.leave();
     songQueue = []; 
     console.log("Left voice channel");
+  }
+}
+ 
+function abandonChannelTimer() {
+  acTimer++; 
+  if(acTimer >= 5) {
+    vc.leave(); 
   }
 }
