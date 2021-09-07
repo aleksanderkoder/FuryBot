@@ -11,7 +11,7 @@ let playing = false;
 let acTimer = 0;
 
 // Makes bot leave voice channel after 5 minutes of inactivity
-setInterval(abandonChannelTimer, 60000); 
+let intervalAcTimer = setInterval(abandonChannelTimer, 1000); 
 
 client.on("ready", () => {
   console.log("Bot is ready");
@@ -45,7 +45,8 @@ async function playSong(message) {
     let url = new URL(msgParams[1]);
     let songid = url.searchParams.get("songid");
     playing = true; 
-    acTimer = 0; 
+    acTimer = 0;
+    clearInterval(intervalAcTimer);  
     
     console.log(JSON.stringify(songQueue)); 
     
@@ -73,6 +74,7 @@ async function playSong(message) {
           dispatcher.on("finish", () => {
             console.log("Audio has finished playing!");
             playing = false;
+            intervalAcTimer = setInterval(abandonChannelTimer, 1000); 
             console.log(songQueue.length); 
 
             if(songQueue.length > 1) {
@@ -84,7 +86,7 @@ async function playSong(message) {
               playSong(songQueue[0]);
               songQueue.shift();
             } else {
-              vc.leave(); 
+              // vc.leave(); 
             }
           });
 
@@ -108,7 +110,7 @@ async function playSong(message) {
  
 function abandonChannelTimer() {
   acTimer++; 
-  if(acTimer >= 5) {
+  if(acTimer >= 300) {
     vc.leave(); 
   }
 }
